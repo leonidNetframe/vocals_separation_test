@@ -70,7 +70,7 @@ def process_audio_pipeline(audio_file):
     return final_vocals, final_instrumentals
 
 # Specify the initial audio file
-audio_file = '/content/example.wav'
+audio_file = './example.wav'
 
 final_vocals, final_instrumentals = process_audio_pipeline(audio_file)
 print(f'Vocals saved at {final_vocals}')
