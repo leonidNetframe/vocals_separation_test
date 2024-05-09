@@ -42,26 +42,26 @@ import torch
 def process_audio_pipeline(audio_file):
     # Process with the first model
     separator = Separator()
-    separator.load_model(model_filename='Kim_Vocal_2.onnx')
-    _, vocals = separator.separate(audio_file)
-    print('+++++++++++++++++++++++++++')
-    print(vocals)
-    print('after Kim_Vocal_2')
-    torch.cuda.empty_cache()
-    time.sleep(15)
-
-    # Load the next model and process the output from the first step
-    separator = Separator()
-    separator.load_model(model_filename='UVR_MDXNET_KARA_2.onnx')
-    chorus, _ = separator.separate(vocals)
-    print('after UVR_MDXNET_KARA_2')
-    torch.cuda.empty_cache()
-    time.sleep(15)
+    # separator.load_model(model_filename='Kim_Vocal_2.onnx')
+    # _, vocals = separator.separate(audio_file)
+    # print('+++++++++++++++++++++++++++')
+    # print(vocals)
+    # print('after Kim_Vocal_2')
+    # torch.cuda.empty_cache()
+    # time.sleep(15)
+    #
+    # # Load the next model and process the output from the first step
+    # separator = Separator()
+    # separator.load_model(model_filename='UVR_MDXNET_KARA_2.onnx')
+    # chorus, _ = separator.separate(vocals)
+    # print('after UVR_MDXNET_KARA_2')
+    # torch.cuda.empty_cache()
+    # time.sleep(15)
 
     # Continue the pipeline by loading and processing with each subsequent model
     separator = Separator()
     separator.load_model(model_filename='UVR-DeEcho-DeReverb.pth')
-    reverb, _ = separator.separate(chorus)
+    reverb, _ = separator.separate(audio_file)
     print('after DeReverb')
     torch.cuda.empty_cache()
     time.sleep(15)
