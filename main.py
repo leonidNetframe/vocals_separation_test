@@ -34,7 +34,7 @@
 # # Usage
 # pipeline = AudioProcessingPipeline()
 # pipeline.run('path_to_audio_file.wav')
-
+import time
 from audio_separator.separator import Separator
 
 def process_audio_pipeline(audio_file):
@@ -49,23 +49,33 @@ def process_audio_pipeline(audio_file):
     separator = Separator()
     separator.load_model(model_filename='UVR_MDXNET_KARA_2.onnx')
     chorus, _ = separator.separate(vocals)
+    print('after UVR_MDXNET_KARA_2')
+    time.sleep(10)
 
     # Continue the pipeline by loading and processing with each subsequent model
     separator = Separator()
     separator.load_model(model_filename='UVR-DeEcho-DeReverb.pth')
     reverb, _ = separator.separate(chorus)
+    print('after DeReverb')
+    time.sleep(10)
 
     separator = Separator()
     separator.load_model(model_filename='UVR-De-Echo-Aggressive.pth')
     de_echo, _ = separator.separate(reverb)
+    print('after -De-Echo-Aggressive')
+    time.sleep(10)
 
     separator = Separator()
     separator.load_model(model_filename='UVR-DeNoise.pth')
     _, denoise = separator.separate(de_echo)
+    print('after DeNoise')
+    time.sleep(10)
 
     separator = Separator()
     separator.load_model(model_filename='6_HP-Karaoke-UVR.pth')
     final_instrumentals, final_vocals = separator.separate(denoise)
+    print('after Karaoke-UVR')
+    time.sleep(10)
 
     return final_vocals, final_instrumentals
 
