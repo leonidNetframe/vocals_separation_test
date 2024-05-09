@@ -36,6 +36,8 @@
 # pipeline.run('path_to_audio_file.wav')
 import time
 from audio_separator.separator import Separator
+import torch
+# At the end of processing with each model
 
 def process_audio_pipeline(audio_file):
     # Process with the first model
@@ -46,6 +48,7 @@ def process_audio_pipeline(audio_file):
     print(vocals)
     print('after Kim_Vocal_2')
     time.sleep(15)
+    torch.cuda.empty_cache()
 
     # Load the next model and process the output from the first step
     separator = Separator()
@@ -53,6 +56,7 @@ def process_audio_pipeline(audio_file):
     chorus, _ = separator.separate(vocals)
     print('after UVR_MDXNET_KARA_2')
     time.sleep(15)
+    torch.cuda.empty_cache()
 
     # Continue the pipeline by loading and processing with each subsequent model
     separator = Separator()
@@ -60,24 +64,28 @@ def process_audio_pipeline(audio_file):
     reverb, _ = separator.separate(chorus)
     print('after DeReverb')
     time.sleep(15)
+    torch.cuda.empty_cache()
 
     separator = Separator()
     separator.load_model(model_filename='UVR-De-Echo-Aggressive.pth')
     de_echo, _ = separator.separate(reverb)
     print('after -De-Echo-Aggressive')
     time.sleep(15)
+    torch.cuda.empty_cache()
 
     separator = Separator()
     separator.load_model(model_filename='UVR-DeNoise.pth')
     _, denoise = separator.separate(de_echo)
     print('after DeNoise')
     time.sleep(15)
+    torch.cuda.empty_cache()
 
     separator = Separator()
     separator.load_model(model_filename='6_HP-Karaoke-UVR.pth')
     final_instrumentals, final_vocals = separator.separate(denoise)
     print('after Karaoke-UVR')
     time.sleep(15)
+    torch.cuda.empty_cache()
 
     return final_vocals, final_instrumentals
 
