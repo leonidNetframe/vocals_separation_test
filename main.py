@@ -23,17 +23,17 @@ def process_audio_pipeline(audio_file):
     # del separator
     # clear_gpu()
 
-    # Continue the pipeline by loading and processing with each subsequent model
-    separator = Separator()
-    separator.load_model(model_filename='UVR-DeEcho-DeReverb.pth')
-    reverb, _ = separator.separate(audio_file)
+    # # Continue the pipeline by loading and processing with each subsequent model
+    # separator = Separator()
+    # separator.load_model(model_filename='UVR-DeEcho-DeReverb.pth')
+    # reverb, _ = separator.separate(chorus)
 
-    del separator
-    clear_gpu()
+    # del separator
+    # clear_gpu()
 
     separator = Separator()
     separator.load_model(model_filename='UVR-De-Echo-Aggressive.pth')
-    de_echo, _ = separator.separate(reverb)
+    de_echo, _ = separator.separate(audio_file)
 
     del separator
     clear_gpu()
