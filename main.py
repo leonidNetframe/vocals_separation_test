@@ -55,7 +55,7 @@ def process_audio_pipeline(audio_file):
 
 separator = Separator()
 # Specify the initial audio file
-audio_file = '/content/input.wav'
+audio_file = 'example.wav'
 # Run the full audio processing pipeline
 final_vocals, final_instrumentals = process_audio_pipeline(audio_file)
 print(f'Vocals saved at {final_vocals}')
